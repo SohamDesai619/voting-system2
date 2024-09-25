@@ -30,8 +30,13 @@ const onDrop = useCallback(async(acceptedFiles)=>{
 
 const{getRootProps,getInputProps} = useDropzone({
   onDrop,
-  accept: "image/*",
-  maxSize:5000000,
+  accept: {
+    'image/jpeg': ['.jpeg', '.jpg'],
+    'image/png': ['.png'],
+    'image/gif': ['.gif'],
+    'image/webm': ['.webm'],
+  },
+  maxSize:10000000,
 })
 
 //---JSX PART
@@ -40,18 +45,18 @@ return(
    
    <div className={Style.createVoter}>
     <div>
-     {!fileUrl && (
+     {fileUrl && (
       <div className={Style.voterInfo}>
       <img src={fileUrl} alt="Voter Image"/>
       <div className={Style.voterInfo_paragraph}>
        <p>
-        Name: <span>&nbps; {formInput.name}</span>
+        Name: <span>&nbsp; {formInput.name}</span>
        </p>
        <p>
-        Add: &nbps; <span>{formInput.address.slice(0,20)}</span>
+        Add: &nbsp; <span>{formInput.address.slice(0,20)}</span>
        </p>
        <p>
-        Pos: &nbps; <span>{formInput.position}</span>
+        Pos: &nbsp; <span>{formInput.position}</span>
        </p>
       </div>    
       </div>
@@ -67,7 +72,7 @@ return(
             </p>
             <p className={Style.sideInfo_para}>Contract Candidate</p>
           </div>
-          <div className={Style.car}>
+          <div className={Style.card}>
             {/* {voterArray.map(()=>(
              <div key={i+1} className={Style.card_box}>
               <div className={Style.image}>
@@ -123,12 +128,12 @@ return(
         />
         <Input inputType="text" title="Address" placeholder="Voter Address"
         handleClick={(e) => 
-        setFormInput({ ...formInput, name:e.target.value})
+        setFormInput({ ...formInput, address:e.target.value})
         }
         />
         <Input inputType="text" title="Position" placeholder="Voter Position"
         handleClick={(e) => 
-        setFormInput({ ...formInput, name:e.target.value})
+        setFormInput({ ...formInput, position:e.target.value})
         }
         />
 

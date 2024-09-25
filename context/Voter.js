@@ -73,7 +73,7 @@ const fetchContract = (signerOrProvider) =>
         }
 
         return(
-            <VotingContext.Provider value={{votingTitle,checkIfWalletIsConnected,connectWallet}}>
+            <VotingContext.Provider value={{votingTitle,checkIfWalletIsConnected,connectWallet,uploadToIPFS}}>
                 {children}
             </VotingContext.Provider>
         );
