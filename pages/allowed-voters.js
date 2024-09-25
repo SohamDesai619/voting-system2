@@ -20,12 +20,16 @@ const AllowedVoters = () =>{
 });
 
 const router = useRouter();
-const {uploadToIPFS} = useContext(VotingContext)
+const {uploadToIPFS,createVoter} = useContext(VotingContext)
 
 //----VOTERS IMAGE DROP
-const onDrop = useCallback(async(acceptedFiles)=>{
-  const url = await uploadToIPFS(acceptedFiles[0]);
-  setFileUrl(url);
+const onDrop = useCallback(async (acceptedFiles) => {
+  try {
+      const url = await uploadToIPFS(acceptedFiles[0]); // Ensure uploadToIPFS includes authorization
+      setFileUrl(url);
+  } catch (error) {
+      console.error("Error uploading to IPFS:", error);
+  }
 });
 
 const{getRootProps,getInputProps} = useDropzone({
@@ -73,7 +77,7 @@ return(
             <p className={Style.sideInfo_para}>Contract Candidate</p>
           </div>
           <div className={Style.card}>
-            {/* {voterArray.map(()=>(
+            {/* {voterArray.map((el, i)=>(
              <div key={i+1} className={Style.card_box}>
               <div className={Style.image}>
                 <img src="" alt="Profile Photo"/>
@@ -106,11 +110,12 @@ return(
 
                 <div className={Style.voter__container__box__div__image}>
                   <Image 
-                  src={images.creator} 
+                  src={images.upload} 
                   alt="File Upload" 
                   width={150} 
                   height={150} 
                   objectFit="contain"
+                  priority
                   />
                 </div>
                 <p>Drag & Drop File</p>
@@ -138,7 +143,7 @@ return(
         />
 
         <div className={Style.Button}>
-          <Button btnName="Authorized Voter" handleClick={()=>{}}/>
+          <Button btnName="Authorized Voter" handleClick={()=>createVoter(formInput,fileUrl,router)}/>
         </div>
       </div>
     </div>
