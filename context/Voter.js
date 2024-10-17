@@ -40,7 +40,7 @@ const fetchContract = (signerOrProvider) =>
         const checkIfWalletIsConnected = async()=>{
           if(!window.ethereum) return setError("Please Install Metamask");
 
-          const account = await window.ethereum.request({method:"eth_account"})
+          const account = await window.ethereum.request({method:"eth_accounts"})
 
           if(account.length){
             setCurrentAccount(account[0]);
@@ -298,7 +298,8 @@ const uploadToIPFSCandidate = async (file) => {
             candidateLength,
             candidateArray,
             uploadToIPFSCandidate,
-            getAllVoterData}}>
+            getAllVoterData,
+            giveVote}}>
                 {children}
             </VotingContext.Provider>
         );

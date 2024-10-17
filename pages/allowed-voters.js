@@ -82,16 +82,15 @@ return(
       </div>
       <div className={Style.card}>
         {voterArray.map((el, i) => (
-          <div key={i} className={Style.card_box}>
+          <div key={i+1} className={Style.card_box}>
             <div className={Style.image}>
               {/* Assuming 'el' contains profile image URL as 'el.image' */}
-              <img src={el.image || "/default-profile.png"} alt="Profile Photo" />
+              <img src={el[4]} alt="Profile Photo" />
             </div>
 
             <div className={Style.card_info}>
-              <p>{el.name || "Name not available"}</p>
-              <p>{el.address || "Address not available"}</p>
-              <p>{el.details || "Details not available"}</p>
+              <p>{el[1]}</p>
+              <p>Address:{el[3].slice(0,10)}...</p>
             </div>
           </div>
         ))}
