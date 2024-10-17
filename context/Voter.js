@@ -75,8 +75,8 @@ const fetchContract = (signerOrProvider) =>
             url: 'https://api.pinata.cloud/pinning/pinFileToIPFS',
             data: formData,
             headers: {
-              pinata_api_key: `9652fbee2ea5c7c1bc32`,
-              pinata_secret_api_key: `bdb2451e7e5d936371eecbe52e85db7fb57898c20a7ab0f5314220571be3c238`,
+              pinata_api_key: `dac25d62ee862c249e72`,
+              pinata_secret_api_key: `ba997ee1fa06fee5d49a613d6eb64e0bd0586dc51d35ff68104e3b3128b5872d`,
 
               'Content-Type':'multipart/form-data'
             }
@@ -90,6 +90,36 @@ const fetchContract = (signerOrProvider) =>
           }
         }
         };
+      //-----UPLOAD TO IPFS CANDIDATE IMAGE  
+const uploadToIPFSCandidate = async (file) => {
+  if (file){
+  try {
+   
+  const formData = new FormData();
+    formData.append('file', file); 
+
+  const response = await axios({
+    method: 'post',
+    url: 'https://api.pinata.cloud/pinning/pinFileToIPFS',
+    data: formData,
+    headers: {
+      pinata_api_key: `dac25d62ee862c249e72`,
+      pinata_secret_api_key: `ba997ee1fa06fee5d49a613d6eb64e0bd0586dc51d35ff68104e3b3128b5872d`,
+
+      'Content-Type':'multipart/form-data'
+    }
+  
+  });
+  const Imghash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+
+  return Imghash;
+  } catch (error) {
+    console.log("Unable to upload image to Pinata");
+  }
+    }
+        };
+
+        
 
         ////--------CREATE Voter
 
@@ -114,8 +144,8 @@ const fetchContract = (signerOrProvider) =>
               url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
               data: data,
               headers: {
-                pinata_api_key: `9652fbee2ea5c7c1bc32`,
-              pinata_secret_api_key: `bdb2451e7e5d936371eecbe52e85db7fb57898c20a7ab0f5314220571be3c238`,
+                pinata_api_key: `dac25d62ee862c249e72`,
+              pinata_secret_api_key: `ba997ee1fa06fee5d49a613d6eb64e0bd0586dc51d35ff68104e3b3128b5872d`,
   
                 'Content-Type':'application/json',
               },          
@@ -132,12 +162,100 @@ const fetchContract = (signerOrProvider) =>
 
             console.log(error);
           }
+        };
+
+        const setCandidate = async (candidateForm,fileUrl,router) =>{
+          const {name,address,age} = candidateForm;
+
+          if(!name || !address || !age) return console.log("Input Data is missing");
+
+          console.log(name,address,age,fileUrl)
+
+           const web3Modal = new Web3Modal();
+           const connection = await web3Modal.connect();
+           const provider = new ethers.providers.Web3Provider(connection);
+           const signer = provider.getSigner();
+           const contract = fetchContract(signer)
+           const data= JSON.stringify({
+             name,
+             address,
+             age,
+             image: fileUrl
+           })
+           const response = await axios({
+             method:"POST",
+             url:"https://api.pinata.cloud/pinning/pinJSONToIPFS",
+             data:data,
+             headers:{
+               pinata_api_key:"dac25d62ee862c249e72",
+               pinata_secret_api_key:"ba997ee1fa06fee5d49a613d6eb64e0bd0586dc51d35ff68104e3b3128b5872d",
+               'Content-Type':'application/json',
+             },
+           })
+           const url = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`
+           const candidate = await contract.setCandidate(
+             address,
+             age,
+             name,
+             fileUrl,
+             url
+           );
+           candidate.wait()
+           router.push("/");
         }
+
+        //--GET CANDIDATE DATA
+
+        const getNewCandidate = async()=>{
+          try{
+            const web3Modal = new Web3Modal();
+            const connection = await web3Modal.connect()
+            const provider= new ethers.providers.Web3Provider(connection)
+            const signer=provider.getSigner();
+            const contract = fetchContract(signer)
+
+            //------All CANDIDATE
+            const allCandidate = await contract.getCandidate();
+            console.log(allCandidate);
+
+            allCandidate.map(async(el)=>{
+              const singleCandidateData = await contract.getCandidatedata(el);
+
+              pushVoter.push(singleCandidateData);
+              candidateIndex.push(singleCandidateData[2].toNumber());
+              
+            });
+            
+
+            const allCandidateLength = await contract.getCandidateLength();
+            setCandidateLength(allCandidateLength.toNumber());
+          } catch(error){
+            console.log(error);
+          }
+        };
+
+        useEffect(()=>{
+          getNewCandidate()
+        },[])
 
 
 
         return(
-            <VotingContext.Provider value={{votingTitle,checkIfWalletIsConnected,connectWallet,uploadToIPFS,createVoter}}>
+            <VotingContext.Provider value={{votingTitle,
+            checkIfWalletIsConnected,
+            connectWallet,
+            uploadToIPFS,
+            createVoter,
+            getNewCandidate,
+            setCandidate,
+            error,
+            voterArray,
+            voterLength,
+            voterAddress,
+            currentAccount,
+            candidateLength,
+            candidateArray,
+            uploadToIPFSCandidate}}>
                 {children}
             </VotingContext.Provider>
         );
