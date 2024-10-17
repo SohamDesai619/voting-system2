@@ -20,7 +20,7 @@ const candidateRegisteration = () =>{
 });
 
 const router = useRouter();
-const {setCandidate,uploadToIPFSCandidate,voterArray,getNewCandidate} = useContext(VotingContext)
+const {setCandidate,uploadToIPFSCandidate,candidateArray,getNewCandidate} = useContext(VotingContext)
 
 //----VOTERS IMAGE DROP
 const onDrop = useCallback(async (acceptedFiles) => {
@@ -71,36 +71,35 @@ return(
       </div>
      )}
 
-     {
-      !fileUrl && (
-        <div className={Style.sideInfo}>
-          <div className={Style.sideInfo_box}>
-            <h4>Create candidate For Voting</h4>
-            <p>
-              Blockchain voting organization, provide ethereum Blockchain system
-            </p>
-            <p className={Style.sideInfo_para}>Contract Candidate</p>
-          </div>
-          <div className={Style.card}>
-            {/* {voterArray.map((el, i)=>(
-             <div key={i+1} className={Style.card_box}>
-              <div className={Style.image}>
-                <img src="" alt="Profile Photo"/>
-              </div>
+{
+  !fileUrl && (
+    <div className={Style.sideInfo}>
+      <div className={Style.sideInfo_box}>
+        <h4>Create candidate For Voting</h4>
+        <p>
+          Blockchain voting organization, provide ethereum Blockchain system
+        </p>
+        <p className={Style.sideInfo_para}>Contract Candidate</p>
+      </div>
+      <div className={Style.card}>
+        {candidateArray.map((el, i) => (
+          <div key={i + 1} className={Style.card_box}>
+            <div className={Style.image}>
+              <img src={el[3]} alt="Profile Photo" />
+            </div>
 
-              <div className={Style.card_info}>
-                <p>
-                  Name
-                </p>
-                <p>Address</p>
-                <p>Details</p>
-              </div>
-             </div>
-            ))} */}
+            <div className={Style.card_info}>
+              <p>{el[1]} #{el[2].toNumber()}</p>
+              <p>{el[0]}</p>
+              <p>Address:{el[6].slice(0,10)}...</p>
+            </div>
           </div>
-        </div>
-      )
-     }
+        ))}
+      </div>
+    </div>
+  )
+}
+
     </div>
     <div className={Style.voter}>
       <div className={Style.voter_container}>

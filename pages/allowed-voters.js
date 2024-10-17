@@ -20,7 +20,7 @@ const AllowedVoters = () =>{
 });
 
 const router = useRouter();
-const {uploadToIPFS,createVoter} = useContext(VotingContext)
+const {uploadToIPFS,createVoter,voterArray,getAllVoterData} = useContext(VotingContext)
 
 //----VOTERS IMAGE DROP
 const onDrop = useCallback(async (acceptedFiles) => {
@@ -41,7 +41,11 @@ const{getRootProps,getInputProps} = useDropzone({
     'image/webm': ['.webm'],
   },
   maxSize:10000000,
-})
+});
+
+useEffect(()=>{
+  getAllVoterData();
+},[])
 
 //---JSX PART
 
@@ -66,36 +70,36 @@ return(
       </div>
      )}
 
-     {
-      !fileUrl && (
-        <div className={Style.sideInfo}>
-          <div className={Style.sideInfo_box}>
-            <h4>Create candidate For Voting</h4>
-            <p>
-              Blockchain voting organization, provide ethereum Blockchain system
-            </p>
-            <p className={Style.sideInfo_para}>Contract Candidate</p>
-          </div>
-          <div className={Style.card}>
-            {/* {voterArray.map((el, i)=>(
-             <div key={i+1} className={Style.card_box}>
-              <div className={Style.image}>
-                <img src="" alt="Profile Photo"/>
-              </div>
+{
+  !fileUrl && (
+    <div className={Style.sideInfo}>
+      <div className={Style.sideInfo_box}>
+        <h4>Create Candidate For Voting</h4>
+        <p>
+          Blockchain voting organization, provide ethereum Blockchain system
+        </p>
+        <p className={Style.sideInfo_para}>Contract Candidate</p>
+      </div>
+      <div className={Style.card}>
+        {voterArray.map((el, i) => (
+          <div key={i} className={Style.card_box}>
+            <div className={Style.image}>
+              {/* Assuming 'el' contains profile image URL as 'el.image' */}
+              <img src={el.image || "/default-profile.png"} alt="Profile Photo" />
+            </div>
 
-              <div className={Style.card_info}>
-                <p>
-                  Name
-                </p>
-                <p>Address</p>
-                <p>Details</p>
-              </div>
-             </div>
-            ))} */}
+            <div className={Style.card_info}>
+              <p>{el.name || "Name not available"}</p>
+              <p>{el.address || "Address not available"}</p>
+              <p>{el.details || "Details not available"}</p>
+            </div>
           </div>
-        </div>
-      )
-     }
+        ))}
+      </div>
+    </div>
+  )
+}
+
     </div>
     <div className={Style.voter}>
       <div className={Style.voter_container}>

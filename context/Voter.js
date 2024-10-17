@@ -164,6 +164,48 @@ const uploadToIPFSCandidate = async (file) => {
           }
         };
 
+        ////-------CREATE VOTER
+
+        const getAllVoterData = async() => {
+          try{
+            const web3Modal = new Web3Modal();
+          const connection = await web3Modal.connect()
+          const provider= new ethers.providers.Web3Provider(connection)
+          const signer=provider.getSigner();
+          const contract = fetchContract(signer);
+
+
+          //VOTER LIST
+          const voterListData = await contract.getVoterList();
+          setVoterAddress(voterListData);
+
+          voterListData.map(async(eL)=>{
+            const singleVoterData = await contract.getVoterdata(eL);
+            pushVoter.push(singleVoterData);
+
+          });
+
+          //VOTER LENGTH
+
+          const voterList = await contract.getVoterLength();
+          setVoterLength(voterList.toNumber());
+          }
+          catch (error) {
+           setError("Something Went Wrong");
+          }         
+        };
+
+        ////---GIVE VOTE
+        const giveVote = async(id) => {
+        try {
+
+
+        } catch (error) {
+          console.log(error)
+        }
+        
+        }
+
         const setCandidate = async (candidateForm,fileUrl,router) =>{
           const {name,address,age} = candidateForm;
 
@@ -221,7 +263,7 @@ const uploadToIPFSCandidate = async (file) => {
             allCandidate.map(async(el)=>{
               const singleCandidateData = await contract.getCandidatedata(el);
 
-              pushVoter.push(singleCandidateData);
+              pushCandidate.push(singleCandidateData);
               candidateIndex.push(singleCandidateData[2].toNumber());
               
             });
@@ -255,7 +297,8 @@ const uploadToIPFSCandidate = async (file) => {
             currentAccount,
             candidateLength,
             candidateArray,
-            uploadToIPFSCandidate}}>
+            uploadToIPFSCandidate,
+            getAllVoterData}}>
                 {children}
             </VotingContext.Provider>
         );
