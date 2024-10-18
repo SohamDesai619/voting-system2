@@ -18,11 +18,14 @@ const index = () => {
     currentAccount,
     checkIfWalletIsConnected,
     candidateLength,
-    voterLength
+    voterLength,
+    getAllVoterData
     } = useContext(VotingContext)
 
   useEffect(() =>{
     checkIfWalletIsConnected();
+    getAllVoterData();  
+    // getNewCandidate();
   });
   return (<div className={Style.home}>{currentAccount && (
     <div className={Style.winner}>
@@ -41,7 +44,7 @@ const index = () => {
 
     <div className={Style.winner_message}>
       <small>
-        <Countdown date= {Date.now()+ 10000} />
+        <Countdown date= {Date.now()+ 10000000} />
       </small>
       
       </div> 

@@ -198,6 +198,18 @@ const uploadToIPFSCandidate = async (file) => {
         ////---GIVE VOTE
         const giveVote = async(id) => {
         try {
+          const voterAddress = id.address;
+          const voterId = id.id;
+
+          
+          const web3Modal = new Web3Modal();
+          const connection = await web3Modal.connect()
+          const provider= new ethers.providers.Web3Provider(connection)
+          const signer=provider.getSigner();
+          const contract = fetchContract(signer);
+
+          const votedList = await contract.vote(voterAddress, voterId);
+          console.log(votedList);           
 
 
         } catch (error) {

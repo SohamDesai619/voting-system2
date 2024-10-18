@@ -34,9 +34,13 @@ const Card = ({ candidateArray, giveVote }) => {
           </div>
 
           <div className={Style.card_button}>
-            <button onClick={() => giveVote({ id: el[2].toNumber(), address: el[6] })}>
-              Vote
-            </button>
+          <button onClick={() => {
+    console.log("Vote button clicked:", el[2].toNumber(), el[6]);
+    giveVote({ id: el[2].toNumber(), address: el[6] });
+}}>
+    Vote
+</button>
+
           </div>
         </div>
       ))}

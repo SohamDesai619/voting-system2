@@ -8,7 +8,7 @@ import {AiFillLock,AiFillUnlock} from 'react-icons/ai'
 
 import {VotingContext} from "../../context/Voter";
 import Style from './NavBar.module.css'
-// import loading from '../../assets/loading.gif'
+import loading from '../../assets/loading.gif';
 
 const NavBar = () => {
   const {connectWallet,error,currentAccount}=useContext(VotingContext);
@@ -37,7 +37,7 @@ const NavBar = () => {
       <div className={Style.navbar_box}>
         <div className={Style.title}>
           <Link href={{pathname:'/'}}>
-            <a>{/* <Image src={loading} alt="logo" width={80} height={80}/> */}</a>
+            <a><Image src={loading} alt="logo" width={80} height={80}/></a>
           </Link>
         </div>
         <div className={Style.connect}>
