@@ -1,28 +1,28 @@
-.home{
+.home {
     width: 70%;
     margin: 0 auto;
-    margin-block:2rem ;
+    margin-block: 2rem;
 }
 
-.winner{
+.winner {
     margin-block: 3rem;
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 }
 
-.winner_info{
+.winner_info {
     background-color: #231e39;
     padding: 1rem;
     border-radius: 0.2rem;
 
     display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap:1rem ;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
     align-items: center;
 }
 
-.winner_message{
+.winner_message {
     background-color: #231e3939;
     padding: 2rem;
     border-radius: 0.2rem;
@@ -32,41 +32,96 @@
     position: relative;
 }
 
-.winner_message small{
+.winner_message small {
     font-size: 5rem;
     top: 43%;
-    left:50%;
-    transform: translate(-50%,-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     position: absolute;
 }
 
-.candidate_list{
+.winner_announcement {
+    background-color: #4caf50; /* Green background for success */
+    color: #ffffff; /* White text for contrast */
+    padding: 20px; /* Spacing around the text */
+    border-radius: 0.5rem; /* Rounded corners */
+    text-align: center; /* Centered text */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transition: transform 0.2s ease, background-color 0.3s ease; /* Smooth transition effects */
+    margin: 20px 0; /* Margin to separate from other elements */
+    font-size: 1.5rem; /* Base font size */
+    overflow-wrap: break-word; /* Ensure text wraps within the box */
+}
+
+/* Further adjustments for the winner's address */
+.winner_announcement strong {
+    font-size: 1.2em; /* Slightly smaller font for the winner's address */
+    text-decoration: underline; /* Underline for emphasis */
+    color: #ffeb3b; /* Bright yellow for contrast */
+}
+
+/* Candidate list styles */
+.candidate_list {
     background-color: #9a02ac;
     font-size: 1rem;
     padding: 0.1rem 1rem;
 }
 
-.candidate_list p{
+.candidate_list p {
     font-weight: 600;
 }
 
-.canddiate_list span{
+.candidate_list span {
     background-color: #231e39;
     padding: 0.5rem;
-    margin-left:0.5rem ;
+    margin-left: 0.5rem;
     color: #b3b8cd;
     border-radius: 0.2rem;
 }
 
-/* ///MEDIA QUERY */
-@media screen and (max-width:35rem){
-    .home{
+/* Styles for closed message */
+.closed_message {
+    background-color: #f44336; /* Red background for closed message */
+    color: #ffffff; /* White text */
+    padding: 15px; /* Padding */
+    border-radius: 0.2rem; /* Rounded corners */
+    text-align: center; /* Centered text */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow */
+    margin: 20px 0; /* Margin */
+}
+
+/* Styles for vote count display */
+.vote_count {
+    background-color: #2196f3; /* Blue background for vote count */
+    color: #ffffff; /* White text for contrast */
+    padding: 15px; /* Padding around the text */
+    border-radius: 0.5rem; /* Rounded corners */
+    text-align: center; /* Centered text */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    margin: 20px 0; /* Margin to separate from other elements */
+    font-size: 1.2rem; /* Font size for vote count */
+}
+
+/* Optional: Adjust strong text in vote count */
+.vote_count strong {
+    font-size: 1.5em; /* Slightly larger font for emphasis */
+}
+
+/* Media Query for responsiveness */
+@media screen and (max-width: 35rem) {
+    .home {
         width: 90%;
     }
-    .winner{
+    .winner {
         grid-template-columns: 1fr;
     }
-    .winner_message small{
+    .winner_message small {
         font-size: 0.2rem;
+    }
+    .winner_announcement {
+        font-size: 1.5rem; /* Smaller font size on mobile */
+    }
+    .vote_count {
+        font-size: 1rem; /* Adjust font size on mobile */
     }
 }

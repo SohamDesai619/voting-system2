@@ -164,6 +164,22 @@ const uploadToIPFSCandidate = async (file) => {
           }
         };
 
+        const declareWinner = async () => {
+          const web3Modal = new Web3Modal();
+          const connection = await web3Modal.connect();
+          const provider = new ethers.providers.Web3Provider(connection);
+          const signer = provider.getSigner();
+          const contract = fetchContract(signer);
+          
+          try {
+              const winnerAddress = await contract.declareWinner(); // Replace with the correct contract method
+              return winnerAddress;
+          } catch (error) {
+              console.error("Error in declaring winner:", error);
+              throw error; // Rethrow error for handling in the component
+          }
+      };
+      
         ////-------CREATE VOTER
 
         const getAllVoterData = async() => {
@@ -280,6 +296,7 @@ const uploadToIPFSCandidate = async (file) => {
               
             });
             
+         
 
             const allCandidateLength = await contract.getCandidateLength();
             setCandidateLength(allCandidateLength.toNumber());
@@ -311,7 +328,8 @@ const uploadToIPFSCandidate = async (file) => {
             candidateArray,
             uploadToIPFSCandidate,
             getAllVoterData,
-            giveVote}}>
+            giveVote,
+            declareWinner}}>
                 {children}
             </VotingContext.Provider>
         );

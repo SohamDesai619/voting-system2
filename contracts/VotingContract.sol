@@ -196,6 +196,23 @@ contract Create {
     function getVoterLength() public view returns (uint256) {
         return voterAddress.length;
     }
+    function declareWinner() public view returns (address winnerAddress, uint256 highestVotes) {
+    uint256 maxVotes = 0;
+    address winner = address(0);
+
+    for (uint256 i = 0; i < candidateAddress.length; i++) {
+        address candidateAddr = candidateAddress[i];
+        uint256 candidateVotes = candidates[candidateAddr].voteCount;
+
+        if (candidateVotes > maxVotes) {
+            maxVotes = candidateVotes;
+            winner = candidateAddr;
+        }
+    }
+
+    return (winner, maxVotes);
+}
+
 
     function getVoterdata(address _address)
         public

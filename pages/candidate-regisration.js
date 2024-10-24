@@ -16,7 +16,7 @@ const candidateRegisteration = () =>{
  const[candidateForm,setCandidateForm] = useState({
   name:"",
   address:"",
-  age:"",
+  position:"",
 });
 
 const router = useRouter();
@@ -65,7 +65,7 @@ return(
         Add: &nbsp; <span>{candidateForm.address.slice(0,20)}</span>
        </p>
        <p>
-        age: &nbsp; <span>{candidateForm.age}</span>
+        Position: &nbsp; <span>{candidateForm.position}</span>
        </p>
       </div>    
       </div>

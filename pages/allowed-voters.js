@@ -16,7 +16,7 @@ const AllowedVoters = () =>{
  const[formInput,setFormInput] = useState({
   name:"",
   address:"",
-  position:"",
+  Age:"",
 });
 
 const router = useRouter();
@@ -64,7 +64,7 @@ return(
         Add: &nbsp; <span>{formInput.address.slice(0,20)}</span>
        </p>
        <p>
-        Pos: &nbsp; <span>{formInput.position}</span>
+        Age: &nbsp; <span>{formInput.Age}</span>
        </p>
       </div>    
       </div>
