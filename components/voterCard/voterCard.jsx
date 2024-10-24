@@ -13,8 +13,9 @@ const voterCard = ({voterArray, giveVote}) => {
    {voterArray.map((el,i) => (
     <div className={Style.card_box} key={i}>
       <div className={Style.image}>
-        <img src={el[4]} alt="Profile Photo" />
-      </div>
+  <img src={el[4]} alt="Profile Photo" className={voterCardStyle.voterImage} />
+</div>
+
 
     <div className={Style.card_info}>
       <h2>

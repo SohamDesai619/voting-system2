@@ -8,4 +8,12 @@
     border-radius: .2rem;
 }
 
+.voterImage {
+    width: 100px; /* Set the width of the image */
+    height: 100px; /* Set the height of the image */
+    object-fit: cover; /* Ensures the image maintains aspect ratio and doesn't stretch */
+    border-radius: 50%; /* Optional: Makes the image circular */
+  }
+  
+
 

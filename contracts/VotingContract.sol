@@ -68,40 +68,42 @@ contract Create {
     }
 
     function setCandidate(
-        address _address,
-        string memory _age,
-        string memory _name,
-        string memory _image,
-        string memory _ipfs
-    ) public {
-        require(
-            votingOrganizer == msg.sender,
-            "Only Organizer can create Candidate"
-        );
+    address _address,
+    string memory _age,
+    string memory _name,
+    string memory _image,
+    string memory _ipfs
+) public {
+    require(votingOrganizer == msg.sender, "Only Organizer can create Candidate");
 
-        _candidateID.increment();
-        uint256 idNumber = _candidateID.current();
+    // Check if candidate is already registered
+    require(candidates[_address]._address == address(0), "Candidate already exists");
 
-        Candidate storage candidate = candidates[_address];
-        candidate.age = _age;
-        candidate.name = _name;
-        candidate.candidateID = idNumber;
-        candidate.image = _image;
-        candidate.voteCount = 0;
-        candidate.ipfs = _ipfs;
+    _candidateID.increment();
+    uint256 idNumber = _candidateID.current();
 
-        candidateAddress.push(_address);
+    Candidate storage candidate = candidates[_address];
+    candidate.age = _age;
+    candidate.name = _name;
+    candidate.candidateID = idNumber;
+    candidate.image = _image;
+    candidate.voteCount = 0;
+    candidate.ipfs = _ipfs;
+    candidate._address = _address;
 
-        emit CandidateEvent(
-            idNumber,
-            _age,
-            _name,
-            _image,
-            candidate.voteCount,
-            _address,
-            _ipfs
-        );
-    }
+    candidateAddress.push(_address);
+
+    emit CandidateEvent(
+        idNumber,
+        _age,
+        _name,
+        _image,
+        candidate.voteCount,
+        _address,
+        _ipfs
+    );
+}
+
 
     function getCandidate() public view returns (address[] memory) {
         return candidateAddress;
@@ -137,44 +139,43 @@ contract Create {
 
     // Voter Section
     function voterRight(
-        address _address,
-        string memory _name,
-        string memory _image,
-        string memory _ipfs
-    ) public {
-        require(
-            votingOrganizer == msg.sender,
-            "Only organizer can create voter not you"
-        );
+    address _address,
+    string memory _name,
+    string memory _image,
+    string memory _ipfs
+) public {
+    require(votingOrganizer == msg.sender, "Only organizer can create voter not you");
 
-        _voterID.increment();
-        uint256 idNumber = _voterID.current();
+    // Check if voter is already registered
+    require(voters[_address].voter_address == address(0), "Voter already exists");
 
-        Voter storage voter = voters[_address];
-        require(voter.voter_allowed == 0, "Voter already allowed");
+    _voterID.increment();
+    uint256 idNumber = _voterID.current();
 
-        voter.voter_allowed = 1;
-        voter.voter_name = _name;
-        voter.voter_image = _image;
-        voter.voter_address = _address;
-        voter.voter_voterID = idNumber;
-        voter.voter_vote = 1000;
-        voter.voter_voted = false;
-        voter.voter_ipfs = _ipfs;
+    Voter storage voter = voters[_address];
+    voter.voter_allowed = 1;
+    voter.voter_name = _name;
+    voter.voter_image = _image;
+    voter.voter_address = _address;
+    voter.voter_voterID = idNumber;
+    voter.voter_vote = 1000;
+    voter.voter_voted = false;
+    voter.voter_ipfs = _ipfs;
 
-        voterAddress.push(_address);
+    voterAddress.push(_address);
 
-        emit VoterCreated(
-            idNumber,
-            _name,
-            _image,
-            _address,
-            voter.voter_allowed,
-            voter.voter_voted,
-            voter.voter_vote,
-            _ipfs
-        );
-    }
+    emit VoterCreated(
+        idNumber,
+        _name,
+        _image,
+        _address,
+        voter.voter_allowed,
+        voter.voter_voted,
+        voter.voter_vote,
+        _ipfs
+    );
+}
+
 
     function vote(address _candidateAddress, uint256 _candidateVoteId)
         external
